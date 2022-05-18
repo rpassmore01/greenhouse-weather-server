@@ -11,6 +11,7 @@ const credentials = {
 
 const app = express();
 const port = 3004;
+let data;
 
 try {
   async function poolDemo() {
@@ -30,22 +31,16 @@ try {
     return now.rows[0];
   }
 
-  app.get("/", async (req, res) => {
-    const pool = await poolDemo();
-    const client = await clientDemo();
-
-    res.status(200).json({
-      pool: pool,
-      client: client,
-    });
-  });
+  data = poolDemo();
 } catch (err) {
-  app.get("/", (req, res) => {
-    res.status(500).json({
-      message: err,
-    });
-  });
+  data = {
+    message: err,
+  };
 }
+
+app.get("/", async (req, res) => {
+  res.status(200).json({ data });
+});
 
 app.listen(port, () => {
   console.log(`server started on ${port} `);
