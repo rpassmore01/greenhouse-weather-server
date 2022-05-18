@@ -19,7 +19,7 @@ try {
     const now = await pool.query("SELECT NOW()");
     await pool.end();
 
-    return now.rows[0];
+    data = now.rows[0];
   }
 
   async function clientDemo() {
@@ -30,8 +30,6 @@ try {
 
     return now.rows[0];
   }
-
-  data = poolDemo();
 } catch (err) {
   data = {
     message: err,
