@@ -9,6 +9,9 @@ const credentials = {
   port: 5432,
 };
 
+const app = express();
+const port = 3004;
+
 try {
   async function poolDemo() {
     const pool = new Pool(credentials);
@@ -43,9 +46,6 @@ try {
     });
   });
 }
-
-const app = express();
-const port = 3004;
 
 app.listen(port, () => {
   console.log(`server started on ${port} `);
