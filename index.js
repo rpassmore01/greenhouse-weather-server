@@ -1,17 +1,22 @@
 const express = require("express");
 const { Pool, Client } = require("pg");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const credentials = {
-  user: "russell",
-  host: "localhost",
-  database: "greenhouseData",
-  password: "Dh*&36Gs",
-  port: 5432,
+  user: process.env.DATABASE_USERNAME,
+  host: process.env.DATABASE_HOST,
+  database: process.env.DATABASE_NAME,
+  password: process.env.DATABASE_PASSWORD,
+  port: process.env.DATABASE_PORT,
 };
 let port = 3004;
 const app = express();
 if(process.argv[2]) port = 3006;
 let data;
+
+console.log(`${process.env.DATABASE_USERNAME} hello`);
 
 try {
   async function poolDemo() {
@@ -25,15 +30,6 @@ try {
 	}
 })
     pool.end();
-  }
-
-  async function clientDemo() {
-    const client = new Client(credentials);
-    await client.connect();
-    const now = await client.query("SELECT NOW()");
-    await client.end();
-
-    return now.rows[0];
   }
   poolDemo();
 } catch (err) {
