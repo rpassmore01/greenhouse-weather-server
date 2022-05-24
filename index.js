@@ -8,18 +8,23 @@ const credentials = {
   password: "Dh*&36Gs",
   port: 5432,
 };
-
+let port = 3004;
 const app = express();
-const port = 3004;
+if(process.argv[2]) port = 3006;
 let data;
 
 try {
   async function poolDemo() {
     const pool = new Pool(credentials);
-    const now = await pool.query("SELECT NOW()");
-    await pool.end();
-
-    data = now.rows[0];
+    pool.query("table weather_data", (err, res) => {
+	if(err){
+	   console.log(err.stack);}
+	else {
+	    console.log(res.rows);
+ 	    data = res.rows;
+	}
+})
+    pool.end();
   }
 
   async function clientDemo() {
@@ -30,10 +35,12 @@ try {
 
     return now.rows[0];
   }
+  poolDemo();
 } catch (err) {
   data = {
     message: err,
   };
+  console.log(err);
 }
 
 app.get("/", async (req, res) => {
