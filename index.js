@@ -1,5 +1,5 @@
 const express = require("express");
-const { Pool, Client } = require("pg");
+const { Pool } = require("pg");
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -13,7 +13,7 @@ const credentials = {
 };
 let port = 3004;
 const app = express();
-if(process.argv[2]) port = 3006;
+if (process.argv[2]) port = 3006;
 let data;
 
 console.log(`${process.env.DATABASE_USERNAME} hello`);
@@ -22,13 +22,13 @@ try {
   async function poolDemo() {
     const pool = new Pool(credentials);
     pool.query("table weather_data", (err, res) => {
-	if(err){
-	   console.log(err.stack);}
-	else {
-	    console.log(res.rows);
- 	    data = res.rows;
-	}
-})
+      if (err) {
+        console.log(err.stack);
+      } else {
+        console.log(res.rows);
+        data = res.rows;
+      }
+    });
     pool.end();
   }
   poolDemo();
