@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node index.js dev --trace-warnings"
+    "start": "node server.js",
+    "dev": "node server.js dev --trace-warnings"
   },
   "keywords": [],
   "author": "",
