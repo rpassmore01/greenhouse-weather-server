@@ -13,22 +13,19 @@ const credentials = {
 
 const pool = new Pool(credentials);
 
-console.log(pool);
-
 pool.on("error", (err, client) => {
   console.log(err);
 });
 
-function getAllData() {
-  let data;
-  pool.query("table weather_data", (err, res) => {
-    if (err) {
-      return err;
-    } else {
-      data = res.rows;
-    }
-  });
-  return data;
+async function getAllData() {
+  const { rows } = await pool.query("table weather_data");
+  return rows;
 }
 
-module.exports = { getAllData };
+async function addWeatherData(temperature, humidity){
+  const res = await pool.query(`INSERT INTO weather_data (temperature, humidity, created_on) VALUES (${temperature}, ${humidity}, CURRENT_TIMESTAMP)`);
+  console.log(`Inserted data`);
+  return res;
+}
+
+module.exports = { getAllData, addWeatherData};
