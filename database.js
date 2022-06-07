@@ -23,9 +23,17 @@ async function getAllData() {
 }
 
 async function addWeatherData(temperature, humidity){
+  try{
   const res = await pool.query(`INSERT INTO weather_data (temperature, humidity, created_on) VALUES (${temperature}, ${humidity}, CURRENT_TIMESTAMP)`);
   console.log(`Inserted data`);
-  return res;
+  return new Promise((resolve, reject) => {
+    resolve({success: true});
+  });
+  }catch(err){
+    return new Promise((resolve, reject) => {
+      reject({success: false});
+    });
+  }
 }
 
 module.exports = { getAllData, addWeatherData};
