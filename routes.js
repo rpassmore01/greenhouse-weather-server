@@ -17,9 +17,9 @@ router.post("/", async (req, res) => {
   if(req.body.temperature && req.body.humidity){
     try{
       if(req.headers.authkey == process.env.AUTH_KEY){
-      let value = await database.addWeatherData(req.body.temperature, req.body.humidity);
-      if(value.success) res.status(200).json({message: "Database updated"});
-      else res.status(500).json({message: "Internal server error occured when updating database"});
+        let value = await database.addWeatherData(req.body.temperature, req.body.humidity);
+        if(value.success) res.status(200).json({message: "Database updated"});
+        else res.status(500).json({message: "Internal server error occured when updating database"});
       }else{
       res.status(401).json({message: "No valid authorization key was added"});
       }
